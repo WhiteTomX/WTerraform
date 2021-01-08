@@ -4,6 +4,9 @@ Wrapper for terraform
 .DESCRIPTION
 Runs terraform in version specified by Set-WTerraformVersion.
 Parameters are just forwarded to terraform
+.Example
+Invoke-WTerraform -version
+Throws error if no Terraform Version was specified earlier. Otherwise runs command 'terraform -version'
 #>
 function Invoke-WTerraform {
     $versionMap = Get-WTerraformVersionMap
