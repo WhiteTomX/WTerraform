@@ -39,7 +39,7 @@ function Set-WTerraformVersion {
             Write-Warning "Set Terraform Version from $oldVersion to $terraformFullVersion for $currentPath"
         }
         Write-Verbose "Set Terraform Version to $terraformFullVersion for $currentPath"
-        $versionMap[$currentPath] = $terraformFullVersion
+        Add-Member -InputObject $versionMap -MemberType NoteProperty -Name $currentPath -Value $terraformFullVersion
         Set-Content -Value ($versionMap | ConvertTo-Json) -LiteralPath $versionMapPath
     }
 }
