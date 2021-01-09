@@ -13,20 +13,22 @@ Describe "Invoke-WTerraform" {
     BeforeAll {
         Move-Item -LiteralPath $cachePath -Destination $tempcachePath
     }
-    AfterEach {
-        $path = Get-Location
-        Pop-Location
-        Remove-Item $path -Recurse
-    }
     Context "Configured Folders" {
-
-        It "Should run Specified Version" {
+        BeforeAll {
             $path = "TestDrive:\1"
             New-Item -Path $path -ItemType Directory
             Push-Location -Path $path
             Set-WTerraformVersion -Version "0.14.0"
+        }
+        It "Should run Specified Version" {
             $actualVersion = Invoke-WTerraform -version
             $actualVersion[0] | Should -Be "Terraform v0.14.0"
+        }
+        It "Should work with PSDrives" {
+            Push-Location -Path (Join-Path -Path $TestDrive -ChildPath 1)
+            $actualVersion = Invoke-WTerraform -version
+            $actualVersion[0] | Should -Be "Terraform v0.14.0"
+            Pop-Location
         }
     }
     AfterAll {
