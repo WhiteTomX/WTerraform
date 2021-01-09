@@ -30,6 +30,9 @@ Describe "Invoke-WTerraform" {
             $actualVersion[0] | Should -Be "Terraform v0.14.0"
             Pop-Location
         }
+        AfterAll {
+            Pop-Location
+        }
     }
     AfterAll {
         Remove-Item $cachePath -Recurse

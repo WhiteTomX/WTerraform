@@ -9,8 +9,7 @@ Invoke-WTerraform -version
 Throws error if no Terraform Version was specified earlier. Otherwise runs command 'terraform -version'
 #>
 function Invoke-WTerraform {
-    $versionMap = Get-WTerraformVersionMap
-    $version = $versionMap."$($PWD.Path)"
+    $version = Get-WTerraformVersion
     if ($version) {
         $path = Join-Path -Path $env:LOCALAPPDATA -ChildPath "WTerraform" | Join-Path -ChildPath $version | Join-Path -ChildPath "terraform.exe"
         if (Test-Path -LiteralPath $path) {

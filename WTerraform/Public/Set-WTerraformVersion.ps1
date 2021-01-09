@@ -19,7 +19,7 @@ function Set-WTerraformVersion {
         $baseUri = "https://releases.hashicorp.com/terraform"
         $cachePath = Join-Path -Path $env:LOCALAPPDATA -ChildPath "WTerraform"
         $versionMapPath = Join-Path -Path $cachePath -ChildPath "versionmap.json"
-        $currentPath = $pwd.Path
+        $currentPath = Convert-Path $pwd.Path
         if (-not (Test-Path -LiteralPath $cachePath)) {
             New-Item -Path $cachePath -ItemType Directory
         }
@@ -33,18 +33,29 @@ function Set-WTerraformVersion {
         if (Test-Path -LiteralPath $cacheVersionTerraformPath) {
             Write-Verbose "Terraform $terraformFullVersion already present"
         } else {
-            Invoke-Webrequest -Uri "$baseUri/$Version/$terraformFullVersion.zip" -OutFile $cacheVersionZipPath
+            Invoke-WebRequest -Uri "$baseUri/$Version/$terraformFullVersion.zip" -OutFile $cacheVersionZipPath
             Expand-Archive -Path $cacheVersionZipPath -DestinationPath $cacheVersionRootPath
             Remove-Item -Path $cacheVersionZipPath
         }
 
         $versionMap = Get-WTerraformVersionMap
-        $oldVersion = $versionMap."$($PWD.Path)"
-        if ($oldVersion) {
+        $oldVersion = Get-WTerraformversion
+        $versionChange = $false
+        if ($oldVersion -eq $terraformFullVersion) {
+            Write-Verbose "Terraform Version for $currentPath is already $oldVersion"
+        } elseif ($oldVersion -and $oldVersion -ne $terraformFullVersion) {
             Write-Warning "Set Terraform Version from $oldVersion to $terraformFullVersion for $currentPath"
+            $versionMap."$currentPath" = $terraformFullVersion
+            $versionChange = $true
+        } else {
+            Write-Verbose "Set Terraform Version to $terraformFullVersion for $currentPath"
+            Add-Member -InputObject $versionMap -MemberType NoteProperty -Name $currentPath -Value $terraformFullVersion
+            $versionChange = $true
         }
-        Write-Verbose "Set Terraform Version to $terraformFullVersion for $currentPath"
-        Add-Member -InputObject $versionMap -MemberType NoteProperty -Name $currentPath -Value $terraformFullVersion
-        Set-Content -Value ($versionMap | ConvertTo-Json) -LiteralPath $versionMapPath
+
+        if ($true -eq $versionChange) {
+            Set-Content -Value ($versionMap | ConvertTo-Json) -LiteralPath $versionMapPath
+        }
+
     }
 }
