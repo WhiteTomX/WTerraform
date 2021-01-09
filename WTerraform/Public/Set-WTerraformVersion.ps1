@@ -12,7 +12,8 @@ Downloads Terraform Version 0.14.0 if not present and saves the specified versio
 function Set-WTerraformVersion {
     [CmdletBinding()]
     param (
-        [String]$Version = "0.14.4"
+        [Parameter(Mandatory)]
+        [String]$Version
     )
 
     begin {

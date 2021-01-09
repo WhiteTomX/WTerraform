@@ -13,7 +13,7 @@ Specify the Terraform Version to use in this folder.
 ## SYNTAX
 
 ```
-Set-WTerraformVersion [[-Version] <String>] [<CommonParameters>]
+Set-WTerraformVersion [-Version] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -40,7 +40,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 1
 Default value: 0.14.4
 Accept pipeline input: False

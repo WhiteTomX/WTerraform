@@ -8,14 +8,20 @@ $outputModVerDir = Join-Path -Path $outputModDir -ChildPath $manifest.ModuleVers
 Import-Module -Name (Join-Path -Path $outputModVerDir -ChildPath "$($env:BHProjectName).psd1") -Verbose:$false -ErrorAction Stop
 $cachePath = Join-Path -Path $env:LOCALAPPDATA -ChildPath "WTerraform"
 $tempcachePath = Join-Path -Path $env:LOCALAPPDATA -ChildPath "WTerraformTempTest"
+$restore = $false
 
 Describe "Set-WTerraformVersion" {
     BeforeAll {
-        Move-Item -LiteralPath $cachePath -Destination $tempcachePath
+        if (Test-Path $cachePath) {
+            Move-Item -LiteralPath $cachePath -Destination $tempcachePath
+            $restore = $true
+        }
     }
     AfterAll {
-        Remove-Item $cachePath -Recurse
-        Move-Item -LiteralPath $tempcachePath -Destination $cachePath
+        if ($restore) {
+            Remove-Item $cachePath -Recurse
+            Move-Item -LiteralPath $tempcachePath -Destination $cachePath
+        }
     }
     Context "Basic Run Tests" {
         BeforeAll {
@@ -26,7 +32,7 @@ Describe "Set-WTerraformVersion" {
         }
 
         It "Should not run without Version" {
-            {Set-WTerraformVersion} | Should -Throw
+            (Get-Command Set-WTerraformVersion).Parameters.Version.ParameterSets."__AllParameterSets".IsMandatory | Should -BeTrue
         }
 
         It "Should run with version specified" {
@@ -38,7 +44,7 @@ Describe "Set-WTerraformVersion" {
         }
 
         It "Should warn about new Version" {
-            Set-WTerraformVersion -Version 0.14.4 3>1 | Should -Be "123"
+            Set-WTerraformVersion -Version 0.14.4 3>&1 | Should -Be "Set Terraform Version from terraform_0.14.0_windows_amd64 to terraform_0.14.4_windows_amd64 for $TestDrive\"
         }
     }
 }

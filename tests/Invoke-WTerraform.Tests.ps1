@@ -8,10 +8,20 @@ $outputModVerDir = Join-Path -Path $outputModDir -ChildPath $manifest.ModuleVers
 Import-Module -Name (Join-Path -Path $outputModVerDir -ChildPath "$($env:BHProjectName).psd1") -Verbose:$false -ErrorAction Stop
 $cachePath = Join-Path -Path $env:LOCALAPPDATA -ChildPath "WTerraform"
 $tempcachePath = Join-Path -Path $env:LOCALAPPDATA -ChildPath "WTerraformTempTest"
+$restore = $false
 
 Describe "Invoke-WTerraform" {
     BeforeAll {
-        Move-Item -LiteralPath $cachePath -Destination $tempcachePath
+        if (Test-Path $cachePath) {
+            Move-Item -LiteralPath $cachePath -Destination $tempcachePath
+            $restore = $true
+        }
+    }
+    AfterAll {
+        if ($restore) {
+            Remove-Item $cachePath -Recurse
+            Move-Item -LiteralPath $tempcachePath -Destination $cachePath
+        }
     }
     Context "Configured Folders" {
         BeforeAll {
@@ -33,9 +43,5 @@ Describe "Invoke-WTerraform" {
         AfterAll {
             Pop-Location
         }
-    }
-    AfterAll {
-        Remove-Item $cachePath -Recurse
-        Move-Item -LiteralPath $tempcachePath -Destination $cachePath
     }
 }
