@@ -22,12 +22,13 @@ Parameters are just forwarded to terraform
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
+```
+Invoke-WTerraform -version
 ```
 
-{{ Add example description here }}
+Throws error if no Terraform Version was specified earlier.
+Otherwise runs command 'terraform -version'
 
 ## PARAMETERS
 

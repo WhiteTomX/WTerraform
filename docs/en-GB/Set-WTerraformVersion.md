@@ -23,17 +23,17 @@ Also saves the Version for this folder so Invoke-WTerraform will use this Versio
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
+```
+Set-WTerraformVersion -Version 0.14.4
 ```
 
-{{ Add example description here }}
+Downloads Terraform Version 0.14.0 if not present and saves the specified version for later use with Invoke-WTerraform
 
 ## PARAMETERS
 
 ### -Version
-{{ Fill Version Description }}
+Version of Terraform to use in this folder
 
 ```yaml
 Type: String
