@@ -1,0 +1,13 @@
+name: publish
+on: release
+jobs:
+  publish:
+    name: Publish
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Publish
+      shell: powershell
+      run: ./build.ps1 -Task Publish -Bootstrap
+      env:
+        PSGALLERY_API_KEY: ${{ secrets.PSGALLERY_API_KEY }}

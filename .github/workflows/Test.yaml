@@ -1,4 +1,4 @@
-name: CI
+name: Test
 on: [push, pull_request]
 jobs:
   test:
@@ -13,15 +13,3 @@ jobs:
     - name: Test
       shell: powershell
       run: ./build.ps1 -Task Test -Bootstrap
-
-name: publish
-on: release
-jobs:
-  publish:
-    name: Publish
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Publish
-      shell: powershell
-      run: ./build.ps1 -Task Publish -Bootstrap

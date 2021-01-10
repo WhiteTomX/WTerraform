@@ -1,11 +1,11 @@
 
-$moduleName         = $env:BHProjectName
-$manifest           = Import-PowerShellDataFile -Path $env:BHPSModuleManifest
-$outputDir          = Join-Path -Path $ENV:BHProjectPath -ChildPath 'Output'
-$outputModDir       = Join-Path -Path $outputDir -ChildPath $env:BHProjectName
-$outputModVerDir    = Join-Path -Path $outputModDir -ChildPath $manifest.ModuleVersion
+$moduleName = $env:BHProjectName
+$manifest = Import-PowerShellDataFile -Path $env:BHPSModuleManifest
+$outputDir = Join-Path -Path $ENV:BHProjectPath -ChildPath 'Output'
+$outputModDir = Join-Path -Path $outputDir -ChildPath $env:BHProjectName
+$outputModVerDir = Join-Path -Path $outputModDir -ChildPath $manifest.ModuleVersion
 $outputManifestPath = Join-Path -Path $outputModVerDir -Child "$($moduleName).psd1"
-$changelogPath      = Join-Path -Path $env:BHProjectPath -Child 'CHANGELOG.md'
+$changelogPath = Join-Path -Path $env:BHProjectPath -Child 'CHANGELOG.md'
 
 Describe 'Module manifest' {
     Context 'Validation' {
@@ -64,23 +64,24 @@ Describe 'Module manifest' {
             $script:changelogVersion -as [Version] | Should be ( $script:manifest.Version -as [Version] )
         }
 
-        if (Get-Command git.exe -ErrorAction SilentlyContinue) {
-            $script:tagVersion = $null
-            It 'is tagged with a valid version' -skip {
-                $thisCommit = git.exe log --decorate --oneline HEAD~1..HEAD
+        $script:tagVersion = $null
+        $isRelease = @{Skip = $true }
+        if ($env:GITHUB_EVENT_NAME -eq "release") {
+            $thisCommit = git.exe log --decorate --oneline HEAD~1..HEAD
 
-                if ($thisCommit -match 'tag:\s*(\d+(?:\.\d+)*)') {
-                    $script:tagVersion = $matches[1]
-                }
-
-                $script:tagVersion               | Should Not BeNullOrEmpty
-                $script:tagVersion -as [Version] | Should Not BeNullOrEmpty
+            if ($thisCommit -match 'tag:\s*(\d+(?:\.\d+)*)') {
+                $script:tagVersion = $matches[1]
             }
+            $isRelease = @{Skip = $false }
+        }
 
-            It 'all versions are the same' {
-                $script:changelogVersion -as [Version] | Should be ( $script:manifest.Version -as [Version] )
-                #$script:manifest.Version -as [Version] | Should be ( $script:tagVersion -as [Version] )
-            }
+        It 'Release is tagged with a valid version' @isRelease {
+            $script:tagVersion               | Should Not BeNullOrEmpty
+            $script:tagVersion -as [Version] | Should Not BeNullOrEmpty
+        }
+        It 'Release tag equals changelog and manifest version' @isRelease {
+            $script:changelogVersion -as [Version] | Should be ( $script:tagVersion -as [Version] )
+            $script:manifest.Version -as [Version] | Should be ( $script:tagVersion -as [Version] )
         }
     }
 }
