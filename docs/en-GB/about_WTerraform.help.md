@@ -18,7 +18,7 @@ The second header should have no spaces.
 ```
 
 # SHORT DESCRIPTION
-{{ Short Description Placeholder }}
+
 
 ```
 ABOUT TOPIC NOTE:
