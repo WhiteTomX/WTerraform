@@ -26,3 +26,13 @@ Set-WTerraformVersion -Version "0.14.0"
 Invoke-WTerraform -help
 terraform -help
 ```
+
+## Contributing
+
+### Making a release
+
+- Add the new Release version to Changelog
+- Change the Version in Manifest
+- Create Pull Request
+- Create Release in GitHub
+- Release will be published to gallery automatically by GitHub Action
