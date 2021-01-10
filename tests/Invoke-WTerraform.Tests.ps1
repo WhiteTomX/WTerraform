@@ -42,6 +42,7 @@ Describe "Invoke-WTerraform" {
         }
         AfterAll {
             Pop-Location
+            Pop-Location -ErrorAction SilentlyContinue
         }
     }
 }

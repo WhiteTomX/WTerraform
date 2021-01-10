@@ -57,6 +57,5 @@ function Set-WTerraformVersion {
         if ($true -eq $versionChange) {
             Set-Content -Value ($versionMap | ConvertTo-Json) -LiteralPath $versionMapPath
         }
-
     }
 }

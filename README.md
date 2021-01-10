@@ -9,7 +9,8 @@ Currently only supports forwarding cli style to terraform directly. Max be impro
 
 ## Installation
 
-The Module is in the gallery (soonish) so you can just install it.
+The Module is in the gallery so you can just install it.
+Please be aware, that the PowerShell Versions before 5.1 are only tested for compatibility, not by actually running tests.
 
 ```powershell
 Install-Module WTerraform

@@ -12,7 +12,7 @@
 RootModule = 'WTerraform.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '0.0.2'
 
 # Supported PSEditions
 CompatiblePSEditions = @("Desktop")
@@ -33,7 +33,7 @@ Copyright = '(c) Thimo Limpert. All rights reserved.'
 Description = 'Don*t worry about installing Terraform anymore!'
 
 # Minimum version of the PowerShell engine required by this module
-PowerShellVersion = '5.1'
+PowerShellVersion = '3.0'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
