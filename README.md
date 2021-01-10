@@ -18,6 +18,8 @@ Install-Module WTerraform
 
 ## Examples
 
+As it is just an easy wrapper for now you just need to specify the Terraform version once per folder and use the `terraform`command as usual
+
 ```powershell
 Install-Module WTerraform
 Set-WTerraformVersion -Version "0.14.0"
