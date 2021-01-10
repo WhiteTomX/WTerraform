@@ -15,7 +15,7 @@ RootModule = 'WTerraform.psm1'
 ModuleVersion = '0.0.1'
 
 # Supported PSEditions
-# CompatiblePSEditions = @()
+CompatiblePSEditions = @("Desktop")
 
 # ID used to uniquely identify this module
 GUID = '124b3558-f776-49d0-91f7-5048deb59dbb'
@@ -33,7 +33,7 @@ Copyright = '(c) Thimo Limpert. All rights reserved.'
 Description = 'Don*t worry about installing Terraform anymore!'
 
 # Minimum version of the PowerShell engine required by this module
-# PowerShellVersion = ''
+PowerShellVersion = '5.1'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
@@ -48,7 +48,7 @@ Description = 'Don*t worry about installing Terraform anymore!'
 # ClrVersion = ''
 
 # Processor architecture (None, X86, Amd64) required by this module
-# ProcessorArchitecture = ''
+ProcessorArchitecture = 'AMD64'
 
 # Modules that must be imported into the global environment prior to importing this module
 # RequiredModules = @()
