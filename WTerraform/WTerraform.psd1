@@ -15,7 +15,7 @@ RootModule = 'WTerraform.psm1'
 ModuleVersion = '0.0.2'
 
 # Supported PSEditions
-CompatiblePSEditions = @("Desktop")
+#CompatiblePSEditions = @("Desktop")
 
 # ID used to uniquely identify this module
 GUID = '124b3558-f776-49d0-91f7-5048deb59dbb'
