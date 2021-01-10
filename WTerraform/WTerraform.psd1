@@ -12,10 +12,10 @@
 RootModule = 'WTerraform.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '0.0.2'
 
 # Supported PSEditions
-CompatiblePSEditions = @("Desktop")
+#CompatiblePSEditions = @("Desktop")
 
 # ID used to uniquely identify this module
 GUID = '124b3558-f776-49d0-91f7-5048deb59dbb'
@@ -33,7 +33,7 @@ Copyright = '(c) Thimo Limpert. All rights reserved.'
 Description = 'Don*t worry about installing Terraform anymore!'
 
 # Minimum version of the PowerShell engine required by this module
-PowerShellVersion = '5.1'
+PowerShellVersion = '3.0'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
@@ -78,7 +78,7 @@ CmdletsToExport = @()
 VariablesToExport = @()
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = @()
+AliasesToExport = @("terraform")
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()

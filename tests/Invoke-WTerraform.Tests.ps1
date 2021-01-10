@@ -40,8 +40,13 @@ Describe "Invoke-WTerraform" {
             $actualVersion[0] | Should -Be "Terraform v0.14.0"
             Pop-Location
         }
+        it "Should work With alias" {
+            $actualVersion = terraform -version
+            $actualVersion[0] | Should -Be "Terraform v0.14.0"
+        }
         AfterAll {
             Pop-Location
+            Pop-Location -ErrorAction SilentlyContinue
         }
     }
 }
