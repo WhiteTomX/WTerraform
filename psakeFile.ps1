@@ -9,3 +9,7 @@ properties {
 task default -depends Test
 
 task Test -FromModule PowerShellBuild -Version '0.4.0'
+
+Task PublishAndZip -Depends Publish {
+    Compress-Archive -LiteralPath (Join-Path -Path $PSBPreference.Build.ModuleOutDir -ChildPath "*") -DestinationPath (Join-Path -Path $PSBPreference.Build.OutDir -ChildPath "WTerraform.zip")
+}
