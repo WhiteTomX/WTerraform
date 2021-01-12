@@ -12,16 +12,12 @@ $restore = $false
 
 Describe "Set-WTerraformVersion" {
     BeforeAll {
-        if (Test-Path $cachePath) {
-            Move-Item -LiteralPath $cachePath -Destination $tempcachePath
-            $restore = $true
-        }
+        Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'Helper.psm1') -Verbose:$false -Force
+        Move-WTestTerraform
+        Mock -CommandName "Install-WTerraform" -ModuleName WTerraform {}
     }
     AfterAll {
-        if ($restore) {
-            Remove-Item $cachePath -Recurse
-            Move-Item -LiteralPath $tempcachePath -Destination $cachePath
-        }
+        Restore-WTestTerraform
     }
     Context "Basic Run Tests" {
         BeforeAll {
