@@ -28,16 +28,7 @@ function Set-WTerraformVersion {
     }
 
     process {
-        $cacheVersionRootPath = Join-Path -Path $cachePath -ChildPath "$terraformFullVersion"
-        $cacheVersionTerraformPath = Join-Path -Path $cacheVersionRootPath -ChildPath "terraform.exe"
-        $cacheVersionZipPath = Join-Path -Path $cachePath -ChildPath "$terraformFullVersion.zip"
-        if (Test-Path -LiteralPath $cacheVersionTerraformPath) {
-            Write-Verbose "Terraform $terraformFullVersion already present"
-        } else {
-            Invoke-WebRequest -Uri "$baseUri/$Version/$terraformFullVersion.zip" -OutFile $cacheVersionZipPath
-            Expand-Archive -Path $cacheVersionZipPath -DestinationPath $cacheVersionRootPath
-            Remove-Item -Path $cacheVersionZipPath
-        }
+        Install-WTerraform -Version $Version -OS "windows" -Architecture "amd64"
 
         $versionMap = Get-WTerraformVersionMap
         $oldVersion = Get-WTerraformversion
