@@ -20,6 +20,6 @@ function Invoke-WTerraform {
         }
 
     } else {
-        throw "No Version for $pwd specified. Please Run Set-WTerraformVerstion."
+        throw "No Version for $pwd specified. Please Run Set-WTerraformVersion."
     }
 }
