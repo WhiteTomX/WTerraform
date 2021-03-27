@@ -13,7 +13,7 @@ Specify the Terraform Version to use in this folder.
 ## SYNTAX
 
 ```
-Set-WTerraformVersion [-Version] <String> [<CommonParameters>]
+Set-WTerraformVersion [-Version] <String> [-Global] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -43,6 +43,21 @@ Aliases:
 Required: True
 Position: 1
 Default value: 0.14.4
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Global
+Set the Version globally (in userPath) instead of local folder
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
