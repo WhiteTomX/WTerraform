@@ -71,14 +71,12 @@ Describe "Set-WTerraformVersion global" {
     }
     Context "Global Version set" {
         BeforeAll {
-            $output = Set-WTerraformVersion -Version "0.14.8" -Global 3>&1
-        }
-        BeforeEach {
             $cleanPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
             $versionPath = Join-Path -Path (Get-WTestTerraformPath) -ChildPath "terraform_0.14.0_windows_amd64"
             $newVersionPath = Join-Path -Path (Get-WTestTerraformPath) -ChildPath "terraform_0.14.8_windows_amd64"
-            $newPath = $cleanPath + ";" + $pathWithVersion
+            $newPath = $cleanPath + ";" + $versionPath
             [System.Environment]::SetEnvironmentVariable("Path", $newPath, [System.EnvironmentVariableTarget]::User)
+            $output = Set-WTerraformVersion -Version "0.14.8" -Global 3>&1
         }
         It "Should warn about new Version" {
             $output | Should -Be "Set Terraform Version from terraform_0.14.0_windows_amd64 to terraform_0.14.8_windows_amd64 globally"
