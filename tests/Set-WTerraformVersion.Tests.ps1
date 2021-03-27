@@ -58,7 +58,7 @@ Describe "Set-WTerraformVersion global" {
     BeforeEach {
         $regex = Get-WTestTerraformPath
         $regex = [regex]::Escape($regex)
-        $regex = $regex + "[\w|\\]+;?"
+        $regex = $regex + "\\terraform_\d+\.\d+\.\d+_\w+_\w+;?"
         $cleanPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User) -replace $regex, ""
         [System.Environment]::SetEnvironmentVariable("Path", $cleanPath, [System.EnvironmentVariableTarget]::User)
     }
@@ -70,7 +70,7 @@ Describe "Set-WTerraformVersion global" {
         }
     }
     Context "Global Version set" {
-        BeforeAll {
+        BeforeEach {
             $cleanPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
             $versionPath = Join-Path -Path (Get-WTestTerraformPath) -ChildPath "terraform_0.14.0_windows_amd64"
             $newVersionPath = Join-Path -Path (Get-WTestTerraformPath) -ChildPath "terraform_0.14.8_windows_amd64"
