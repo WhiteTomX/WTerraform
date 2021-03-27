@@ -84,7 +84,7 @@ Describe "Set-WTerraformVersion global" {
         It "Should add new Version Folder to Path" {
             [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User) | Should -BeLike "*$($newVersionPath)*"
         }
-        It "Should remove pld Version Folder from Path" {
+        It "Should remove old Version Folder from Path" {
             [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User) | Should -Not -BeLike "*$($versionPath)*"
         }
     }
