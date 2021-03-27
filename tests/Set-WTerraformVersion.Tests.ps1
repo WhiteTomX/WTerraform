@@ -47,7 +47,7 @@ Describe "Set-WTerraformVersion for current folder" {
 Describe "Set-WTerraformVersion global" {
     BeforeAll {
         Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'Helper.psm1') -Verbose:$false -Force
-        $backUpPath = [System.Environment]::GetEnvironmentVariable("Path",[System.EnvironmentVariableTarget]::User)
+        $backUpPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
         Move-WTestTerraform
         Mock -CommandName "Install-WTerraform" -ModuleName WTerraform {}
     }
@@ -59,30 +59,35 @@ Describe "Set-WTerraformVersion global" {
         $regex = Get-WTestTerraformPath
         $regex = [regex]::Escape($regex)
         $regex = $regex + "[\w|\\]+;?"
-        $cleanPath = [System.Environment]::GetEnvironmentVariable("Path",[System.EnvironmentVariableTarget]::User) -replace $regex,""
+        $cleanPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User) -replace $regex, ""
         [System.Environment]::SetEnvironmentVariable("Path", $cleanPath, [System.EnvironmentVariableTarget]::User)
     }
     Context "No global Version set" {
         It "Should add Version Folder to Path" {
             Set-WTerraformVersion -Version "0.14.8" -Global
             $versionPath = Join-Path -Path (Get-WTestTerraformPath) -ChildPath "terraform_0.14.8_windows_amd64"
-            [System.Environment]::GetEnvironmentVariable("Path",[System.EnvironmentVariableTarget]::User) | Should -BeLike "*$($versionPath)*"
+            [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User) | Should -BeLike "*$($versionPath)*"
         }
     }
     Context "Global Version set" {
+        BeforeAll {
+            $output = Set-WTerraformVersion -Version "0.14.8" -Global 3>&1
+        }
         BeforeEach {
-            $cleanPath = [System.Environment]::GetEnvironmentVariable("Path",[System.EnvironmentVariableTarget]::User)
+            $cleanPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
             $versionPath = Join-Path -Path (Get-WTestTerraformPath) -ChildPath "terraform_0.14.0_windows_amd64"
-            $versionPath = $cleanPath + ";" + $pathWithVersion
-            [System.Environment]::SetEnvironmentVariable("Path", $versionPath, [System.EnvironmentVariableTarget]::User)
+            $newVersionPath = Join-Path -Path (Get-WTestTerraformPath) -ChildPath "terraform_0.14.8_windows_amd64"
+            $newPath = $cleanPath + ";" + $pathWithVersion
+            [System.Environment]::SetEnvironmentVariable("Path", $newPath, [System.EnvironmentVariableTarget]::User)
         }
         It "Should warn about new Version" {
-            Set-WTerraformVersion -Version "0.14.8" -Global 3>&1 | Should -Be "Set Terraform Version from terraform_0.14.0_windows_amd64 to terraform_0.14.8_windows_amd64 globally"
+            $output | Should -Be "Set Terraform Version from terraform_0.14.0_windows_amd64 to terraform_0.14.8_windows_amd64 globally"
         }
         It "Should add new Version Folder to Path" {
-            Set-WTerraformVersion -Version "0.14.8" -Global
-            $versionPath = Join-Path -Path (Get-WTestTerraformPath) -ChildPath "terraform_0.14.8_windows_amd64"
-            [System.Environment]::GetEnvironmentVariable("Path",[System.EnvironmentVariableTarget]::User) | Should -BeLike "*$($versionPath)*"
+            [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User) | Should -BeLike "*$($newVersionPath)*"
+        }
+        It "Should remove pld Version Folder from Path" {
+            [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User) | Should -Not -BeLike "*$($versionPath)*"
         }
     }
 }
