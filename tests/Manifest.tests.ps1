@@ -72,7 +72,7 @@ Describe 'Module manifest' {
         }
 
         It 'Release is tagged with a valid version' @isRelease {
-            $script:tagVersion               | Should Not BeNullOrEmpty
+            $script:tagVersion               | Should -Match "^\d+\.\d+\.\d+$"
             $script:tagVersion -as [Version] | Should Not BeNullOrEmpty
         }
         It 'Release tag equals changelog and manifest version' @isRelease {
