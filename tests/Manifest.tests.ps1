@@ -64,10 +64,12 @@ Describe 'Module manifest' {
             $script:changelogVersion -as [Version] | Should be ( $script:manifest.Version -as [Version] )
         }
 
+
+
         $script:tagVersion = $null
         $isRelease = @{Skip = $true }
         if ($env:GITHUB_EVENT_NAME -eq "release") {
-            $script:tagVersion = $env:GITHUB_REF
+            $script:tagVersion = $env:GITHUB_REF -replace "\/refs\/tags\/", ""
             $isRelease = @{Skip = $false }
         }
 
