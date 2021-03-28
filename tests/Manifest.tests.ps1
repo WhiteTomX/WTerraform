@@ -67,8 +67,8 @@ Describe 'Module manifest' {
         $script:tagVersion = $null
         $isRelease = @{Skip = $true }
         if ($env:GITHUB_EVENT_NAME -eq "release") {
-                $script:tagVersion = $env:GITHUB_REF
-                $isRelease = @{Skip = $false }
+            $script:tagVersion = $env:GITHUB_REF
+            $isRelease = @{Skip = $false }
         }
 
         It 'Release is tagged with a valid version' @isRelease {
