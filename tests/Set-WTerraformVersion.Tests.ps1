@@ -88,7 +88,7 @@ Describe "Set-WTerraformVersion global" {
             [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User) | Should -Not -BeLike "*$($versionPath)*"
         }
         It "Should reload Path" {
-            $env:Path | Should -BeLike "*$([System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User))*"
+            $env:Path | Should -BeLike "*$([System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User))"
         }
     }
 }
