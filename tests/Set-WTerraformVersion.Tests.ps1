@@ -87,5 +87,8 @@ Describe "Set-WTerraformVersion global" {
         It "Should remove old Version Folder from Path" {
             [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User) | Should -Not -BeLike "*$($versionPath)*"
         }
+        It "Should reload Path" {
+            $env:Path | Should -BeLike "*$([System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User))"
+        }
     }
 }

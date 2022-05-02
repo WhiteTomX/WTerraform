@@ -23,7 +23,7 @@ Describe "Invoke-WTerraform" {
             Move-Item -LiteralPath $tempcachePath -Destination $cachePath
         }
     }
-    Context "Configured Folders" {
+    Context "Version for current Folder configured" {
         BeforeAll {
             $path = "TestDrive:\1"
             New-Item -Path $path -ItemType Directory
@@ -42,6 +42,23 @@ Describe "Invoke-WTerraform" {
         }
         it "Should work With alias" {
             $actualVersion = terraform -version
+            $actualVersion[0] | Should -Be "Terraform v0.14.0"
+        }
+        AfterAll {
+            Pop-Location
+            Pop-Location -ErrorAction SilentlyContinue
+        }
+    }
+
+    Context "Global Version configured" {
+        BeforeAll {
+            Set-WTerraformVersion -Version "0.14.0" -Global
+            $path = "TestDrive:\global"
+            New-Item -Path $path -ItemType Directory
+            Push-Location -Path $path
+        }
+        It "Should fallback to global version" {
+            $actualVersion = Invoke-WTerraform -version
             $actualVersion[0] | Should -Be "Terraform v0.14.0"
         }
         AfterAll {
