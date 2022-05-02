@@ -44,6 +44,7 @@ function Set-WTerraformVersion {
             }
             $path = $path + ";" + $versionPath
             [System.Environment]::SetEnvironmentVariable("Path", $path, [System.EnvironmentVariableTarget]::User)
+            $env:Path = [System.Environment]::SetEnvironmentVariable("Path", $path, [System.EnvironmentVariableTarget]::Machine) + ";"+  [System.Environment]::SetEnvironmentVariable("Path", $path, [System.EnvironmentVariableTarget]::User)
         } else {
             $versionMap = Get-WTerraformVersionMap
             $oldVersion = Get-WTerraformversion
